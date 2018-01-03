@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import Index from './index';
 
-
-describe('App', () => {
+describe('index', () => {
 
   it('renders without crashing', () => {
     require('./index');

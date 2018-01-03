@@ -51,7 +51,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test":
-      "node scripts/test.js --env=jsdom --coverage --setupTestFrameworkScriptFile=raf/polyfill",
+      "node scripts/test.js --env=jsdom --setupTestFrameworkScriptFile=raf/polyfill",
     "lint": "tslint"
   },
   "devDependencies": {

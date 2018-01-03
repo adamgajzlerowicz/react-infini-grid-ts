@@ -16,7 +16,7 @@ describe('App', () => {
   });
   
   it('renders Grid comopnent', () => {
-    expect(tree.children[0].children[0]).toEqual('Grid');
+    expect(tree.children[0].props.className).toEqual('grid');
   });
 
 });

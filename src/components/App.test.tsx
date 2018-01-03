@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import App from './App';
+import App from './app';
 
 describe('App', () => {
   

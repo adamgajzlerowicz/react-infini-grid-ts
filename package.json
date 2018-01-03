@@ -51,7 +51,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test":
-      "node scripts/test.js --env=jsdom --setupTestFrameworkScriptFile=raf/polyfill",
+      "node scripts/test.js --setupTestFrameworkScriptFile=raf/polyfill",
     "lint": "tslint"
   },
   "devDependencies": {
@@ -68,7 +68,10 @@
   "jest": {
     "mapCoverage": true,
     "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js",
+      "<rootDir>/config/jest/jsdom.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"

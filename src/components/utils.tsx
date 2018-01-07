@@ -1,8 +1,9 @@
 const isMobile = (): boolean => {
   try {
-    return false;  
+    document.createEvent('TouchEvent');
+    return true;  
   } catch (error) {
-    return true; 
+    return false; 
   }
 };
 

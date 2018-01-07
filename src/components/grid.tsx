@@ -11,6 +11,15 @@ const gridStyle = {
   WebkitOverflowScrolling: isMobile() ? 'touch' as 'touch' : undefined,
 };
 
+const gridInner = {
+  display: 'flex' as 'flex',
+  flexGrow: 1,
+  flexBasis: 1,
+  flexWrap: 'wrap' as 'wrap',
+  width: '100%',
+  overflow: 'auto' as 'auto', 
+};
+
 
 interface GridPropsType {
   items: React.Component[] | JSX.Element[];
@@ -92,7 +101,7 @@ class Grid extends React.Component<GridPropsType> {
         style={style}
         ref={(e: HTMLDivElement) => {this.gridElement = e;}}
       >
-        <div className="grid-inner" style={{ height }}>
+        <div className="grid-inner" style={{ height, ...gridInner }}>
           {visibleItems}
         </div>
       </div>

@@ -1,16 +1,18 @@
 .item-outer {
   display: flex;
+  flex: 1 0 250px;
   background-color: #232320;
-  height: 240px;
+  height: 230px;
   flex-direction: column;
   text-align: center;
   justify-content: center;
-  margin: 10px
+  margin: 10px;
+  width: 240px;
 }
 
 .item-inner{
   color: #FFF9E5;
-  text-align: center
+  text-align: center;
 }
 
 .nothing-to-show{

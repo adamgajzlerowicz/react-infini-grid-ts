@@ -3,7 +3,7 @@ import './grid.css';
 import Grid from './grid';
 import { Item } from './item';
 
-const items: JSX.Element[] = Array.from(Array(50)).map((_, i) => <Item id={i} key={i}/>);
+const items: JSX.Element[] = Array.from(Array(10000)).map((_, i) => <Item id={i} key={i}/>);
 
 class App extends React.Component<{}> {
   render() {

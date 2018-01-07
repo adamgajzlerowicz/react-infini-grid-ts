@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { range } from 'rambda';
 
 const gridStyle = {
   display: 'flex',
@@ -7,6 +8,7 @@ const gridStyle = {
   flexWrap: 'wrap' as 'wrap',
   height: 0,
   overflow: 'auto' as 'auto',
+  '-webkit-overflow-scrolling': 'touch',
 };
 
 interface GridPropsType {
@@ -29,6 +31,8 @@ interface CalculateWrapperHeightType {
   itemsCount: number;
 }
 
+const dupa = range(0, 5000).map(i => 'dupa' + i).join(' ');
+
 const calculate = {
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
     const itemsInRow = wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
@@ -50,6 +54,7 @@ class Grid extends React.Component<GridPropsType> {
   }
   
   gridElement?: HTMLDivElement = undefined;
+
   state = {
     itemsCount: 0,
     wrapperHeight: 0,
@@ -85,7 +90,7 @@ class Grid extends React.Component<GridPropsType> {
         ref={(e: HTMLDivElement) => {this.gridElement = e;}}
       >
         <div className="grid-inner" style={{ height }}>
-          Grid
+          {dupa}
         </div>
       </div>
     );

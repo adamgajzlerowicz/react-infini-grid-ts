@@ -4558,6 +4558,10 @@ railroad-diagrams@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
 
+rambda@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/rambda/-/rambda-1.0.7.tgz#64909c6627cbc2345236c99d074a587adb40fd8b"
+
 randexp@^0.4.2:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/randexp/-/randexp-0.4.6.tgz#e986ad5e5e31dae13ddd6f7b3019aa7c87f60ca3"

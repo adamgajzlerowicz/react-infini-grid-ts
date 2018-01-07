@@ -1,8 +1,7 @@
 {
   "name": "react-infini-grid",
   "version": "0.2.1",
-  "description":
-    "React base Grid component, adding to the DOM only elements that are in viewport",
+  "description": "React base Grid component, adding to the DOM only elements that are in viewport",
   "private": true,
   "keywords": [
     "infinity",
@@ -29,6 +28,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
+    "rambda": "^1.0.7",
     "react": "^16.2.0",
     "react-dev-utils": "^4.0.1",
     "react-dom": "^16.2.0",
@@ -50,8 +50,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test":
-      "node scripts/test.js --setupTestFrameworkScriptFile=raf/polyfill",
+    "test": "node scripts/test.js --setupTestFrameworkScriptFile=raf/polyfill",
     "lint": "tslint"
   },
   "devDependencies": {
@@ -67,7 +66,9 @@
   },
   "jest": {
     "mapCoverage": true,
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js",
       "<rootDir>/config/jest/jsdom.js"

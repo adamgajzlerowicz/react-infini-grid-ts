@@ -90,6 +90,12 @@ describe('Grid', () => {
     expect(wrapper.find('.grid .grid-inner').props().style.height).toEqual(6250);
   });
 
+
+  it('should contain styles for mobile', () => {
+    const wrapper = getWrapper();
+    expect(wrapper.find('.grid').props().style.WebkitOverflowScrolling).toBeTruthy();
+  });
+  
 });
 
 

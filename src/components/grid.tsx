@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { range } from 'rambda';
+import { isMobile } from './utils';
 
 const gridStyle = {
   display: 'flex',
@@ -8,8 +9,9 @@ const gridStyle = {
   flexWrap: 'wrap' as 'wrap',
   height: 0,
   overflow: 'auto' as 'auto',
-  '-webkit-overflow-scrolling': 'touch',
+  WebkitOverflowScrolling: isMobile() ? 'touch' as 'touch' : undefined,
 };
+
 
 interface GridPropsType {
   items: React.Component[] | JSX.Element[];

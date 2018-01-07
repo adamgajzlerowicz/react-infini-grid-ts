@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { range } from 'rambda';
 import { isMobile } from './utils';
 
 const gridStyle = {
@@ -33,8 +32,6 @@ interface CalculateWrapperHeightType {
   itemsCount: number;
 }
 
-const dupa = range(0, 5000).map(i => 'dupa' + i).join(' ');
-
 const calculate = {
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
     const itemsInRow = wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
@@ -47,7 +44,11 @@ const calculate = {
       bottomSpace: 0,
       visibleItems: 0,
     };
-  }};
+  },
+  visibleItems: (items: JSX.Element[] | React.Component[]) => {
+    return items;
+  },
+};
 
 class Grid extends React.Component<GridPropsType> {
 
@@ -84,7 +85,7 @@ class Grid extends React.Component<GridPropsType> {
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
     const height = calculate.wrapperHeight(this.state); 
-
+    const visibleItems = calculate.visibleItems(this.props.items);
     return (
       <div 
         className="grid" 
@@ -92,7 +93,7 @@ class Grid extends React.Component<GridPropsType> {
         ref={(e: HTMLDivElement) => {this.gridElement = e;}}
       >
         <div className="grid-inner" style={{ height }}>
-          {dupa}
+          {visibleItems}
         </div>
       </div>
     );

@@ -12,7 +12,7 @@ const { JSDOM } = jsdom;
 
 configure({ adapter: new Adapter() });
 
-const items: JSX.Element[] = Array.from(Array(50)).map((_, i) => <Item id={i} key={i}/>);
+const items: JSX.Element[] = Array.from(Array(50)).map((_, i) => <Item id={i} key={i} />);
   
 const getWrapper = () => {
   return mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500} wrapperWidth={400}/>);
@@ -96,6 +96,10 @@ describe('Grid', () => {
     expect(wrapper.find('.grid').props().style.WebkitOverflowScrolling).toBeTruthy();
   });
   
+  it('should display some children in inner container', () => {
+    const wrapper = getWrapper();
+    expect(wrapper.find('.grid .grid-inner .item-outer').length).toBeGreaterThan(1); 
+  });
 });
 
 
@@ -121,6 +125,12 @@ describe('Calculator', () => {
     });
     expect(calculated).toEqual(6250);
   });
+
+  it('should have function visibleItems that returns items that are visible', () => {
+    const visibleItems = calculate.visibleItems(items);
+    expect(visibleItems.length).toBeGreaterThan(0); 
+  }); 
+
 });
 
 

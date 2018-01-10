@@ -9,7 +9,10 @@ interface ItemPropsType {
 
 const ItemWrapper = ({ width, height, margin, child }: ItemPropsType) => {
   const style = {
-    height, margin, flexBasis: width - (2 * margin) - 2,
+    height, 
+    margin, 
+    flexBasis: width - (2 * margin) - 2,
+    flexGrow: 1,
   };
   return (
     <div style={style} className="item-wrapper">

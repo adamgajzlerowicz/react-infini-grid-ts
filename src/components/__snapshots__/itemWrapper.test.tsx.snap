@@ -6,8 +6,10 @@ exports[`NothingToShow matches the snapshot 1`] = `
   style={
     Object {
       "flexBasis": 228,
+      "flexGrow": 1,
       "height": 250,
       "margin": 10,
+      "maxWidth": 250,
     }
   }
 >

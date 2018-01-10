@@ -17,7 +17,6 @@ const gridInner = {
   overflow: 'auto' as 'auto', 
 };
 
-
 interface GridPropsType {
   items: React.Component[] | JSX.Element[];
   wrapperHeight: number;
@@ -41,7 +40,7 @@ interface CalculateWrapperHeightType {
 const calculate = {
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
     const itemsInRow = wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
-    // console.log('wrapperWidth: ', wrapperWidth, 'itemsInRow: ', itemsInRow);
+    console.log('wrapperWidth: ', wrapperWidth, 'itemsInRow: ', itemsInRow);
     const rowsTotal = itemsCount && itemsInRow ? Math.ceil(itemsCount / itemsInRow) : 0;
     return rowsTotal * itemHeight;
   },
@@ -74,8 +73,6 @@ class Grid extends React.Component<GridPropsType> {
   };
 
   componentDidMount() {
-    // this.gridElement && console.log(this.gridElement.clientWidth);
-    // this.gridElement && console.log(this.gridElement.scrollWidth);
     this.gridElement && 
       this.setState({ 
         wrapperHeight: this.gridElement.offsetHeight,
@@ -93,10 +90,11 @@ class Grid extends React.Component<GridPropsType> {
 
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
-    const height = calculate.wrapperHeight(this.state); 
+    // const height = calculate.wrapperHeight(this.state); 
     
     const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
 
+    const width = this.gridElement ? this.gridElement.clientWidth : 0;
 
     return (
       <div 
@@ -104,7 +102,7 @@ class Grid extends React.Component<GridPropsType> {
         style={style} 
         ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
       >
-        <div className="grid-inner" style={{ height, width: this.props.wrapperWidth, ...gridInner }}>
+        <div className="grid-inner" style={{ width, ...gridInner }}>
           {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} width={this.props.itemWidth} height={this.props.itemHeight} margin={10} child={el} />, visibleItems)}
         </div>
       </div>

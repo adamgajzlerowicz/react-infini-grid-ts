@@ -44,7 +44,7 @@ const calculate = {
     return rowsTotal * itemHeight;
   },
   itemsInRow: ({ wrapperWidth, itemWidth }:{wrapperWidth: number, itemWidth:number}) => {
-    // use reselect
+    // console.log('calculating');
     return wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
   },
   size: ({ offsetWidth, itemWidth }: CalculateSizePropsType) => {
@@ -87,6 +87,7 @@ class Grid extends React.Component<GridPropsType> {
   }
   
   shouldComponentUpdate(nextProps: Readonly<GridPropsType>, nextState: Readonly<{}>, nextContext: any) {
+    // make it smart to not re-render if the same item indexes shown
     calculate.size({ offsetWidth: 0, itemWidth: 0 });
     return true;
   }

@@ -111,6 +111,8 @@ describe('Grid', () => {
     const el = wrapper.find('.grid').instance();
     el.dispatchEvent(new window.Event('scroll'));
     expect(spy).toBeCalled();
+    spy.mockReset();
+    spy.mockRestore();
   });
 
   it('shows space-before item', () => {
@@ -124,18 +126,6 @@ describe('Grid', () => {
 
 
 describe('Calculator', () => {
-
-  it('contains size', () => {
-    expect(calculate.size).toBeTruthy();
-  });
-
-  it('calculate returns correct params', () => {
-    const result = calculate.size({ offsetWidth: 0, itemWidth:0 });
-    const keys = Object.keys(result);
-    expect(keys).toContain('topSpace');
-    expect(keys).toContain('bottomSpace');
-    expect(keys).toContain('visibleItems');
-  });
 
   it('calculates items in row', () => {
     expect(calculate.itemsInRow({ wrapperWidth: 1000, itemWidth: 250 })).toEqual(4);
@@ -164,6 +154,18 @@ describe('Calculator', () => {
     expect(visibleItems).toEqual({ first: 3, last: 6 });
   }); 
 
+  it.only('should have function visibleItems that returns items that are visible take_2', () => {
+    const visibleItems = calculate.visibleItemIndices({
+      itemsInRow: 3,
+      totalItems: 11,
+      itemHeight: 20,
+      amountScrolled: 30,
+      wrapperHeight: 20,
+    });
+
+    expect(visibleItems).toEqual({ first: 4, last: 9 });
+  }); 
+
   it('calculates space before', () => {
     const calculated = calculate.spaceBefore({ first: 5, itemHeight: 20, itemsInRow: 2 });
     expect(calculated).toEqual(40);
@@ -179,6 +181,11 @@ describe('Calculator', () => {
     expect(calculated).toEqual(20);
   });
 
+  it('calculates space after take 2', () => {
+    const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 3, totalItems: 11 });
+    expect(calculated).toEqual(20);
+  });
+  
 });
 
 

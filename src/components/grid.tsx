@@ -25,10 +25,6 @@ interface GridPropsType {
   itemWidth: number;
 }
 
-interface CalculateSizePropsType {
-  offsetWidth: number;
-  itemWidth: number;
-}
 
 interface CalculateWrapperHeightType {
   wrapperWidth: number;
@@ -70,17 +66,12 @@ const calculate = {
     return wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
   },
 
-  size: ({ offsetWidth, itemWidth }: CalculateSizePropsType) => {
-    return {
-      topSpace: 0,
-      bottomSpace: 0,
-      visibleItems: 0,
-    };
-  },
-
   visibleItemIndices: ({ totalItems, itemsInRow, itemHeight, wrapperHeight, amountScrolled }: CalculateVisibleItemsType) => {
     const first = Math.floor(amountScrolled / itemHeight) * itemsInRow + 1; 
-    const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow + itemsInRow;  
+    let last =  Math.ceil((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow;  
+    if (last > totalItems) {
+      last = totalItems;
+    }
     return { first, last }; 
   },
 
@@ -136,7 +127,6 @@ class Grid extends React.Component<GridPropsType> {
   
   shouldComponentUpdate(nextProps: Readonly<GridPropsType>, nextState: Readonly<{}>, nextContext: any) {
     // make it smart to not re-render if the same item indexes shown
-    calculate.size({ offsetWidth: 0, itemWidth: 0 });
     return true;
   }
 

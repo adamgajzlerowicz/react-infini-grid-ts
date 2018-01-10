@@ -24,7 +24,7 @@ describe('ItemWrapper', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it.only('sets correct styles from props', () => {
+  it('sets correct styles from props', () => {
     expect(tree.props.style.flexBasis).toEqual(100 / 4 + '%');
     expect(tree.props.style.height).toEqual(250);
   });

@@ -2,10 +2,6 @@ import * as React from 'react';
 import { isMobile } from './utils';
 
 const gridStyle = {
-  display: 'flex',
-  flexGrow: 1,
-  flexBasis: 1,
-  flexWrap: 'wrap' as 'wrap',
   height: 0,
   overflow: 'auto' as 'auto',
   WebkitOverflowScrolling: isMobile() ? 'touch' as 'touch' : undefined,
@@ -16,7 +12,6 @@ const gridInner = {
   flexGrow: 1,
   flexBasis: 1,
   flexWrap: 'wrap' as 'wrap',
-  width: '100%',
   overflow: 'auto' as 'auto', 
 };
 
@@ -44,6 +39,7 @@ interface CalculateWrapperHeightType {
 const calculate = {
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
     const itemsInRow = wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
+    // console.log('wrapperWidth: ', wrapperWidth, 'itemsInRow: ', itemsInRow);
     const rowsTotal = itemsCount && itemsInRow ? Math.ceil(itemsCount / itemsInRow) : 0;
     return rowsTotal * itemHeight;
   },
@@ -76,6 +72,8 @@ class Grid extends React.Component<GridPropsType> {
   };
 
   componentDidMount() {
+    // this.gridElement && console.log(this.gridElement.clientWidth);
+    // this.gridElement && console.log(this.gridElement.scrollWidth);
     this.gridElement && 
       this.setState({ 
         wrapperHeight: this.gridElement.offsetHeight,
@@ -94,6 +92,7 @@ class Grid extends React.Component<GridPropsType> {
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
     const height = calculate.wrapperHeight(this.state); 
+    // console.log(height);
     const visibleItems = calculate.visibleItems(this.props.items);
     return (
       <div 
@@ -101,7 +100,7 @@ class Grid extends React.Component<GridPropsType> {
         style={style}
         ref={(e: HTMLDivElement) => {this.gridElement = e;}}
       >
-        <div className="grid-inner" style={{ height, ...gridInner }}>
+        <div className="grid-inner" style={{ height, width: this.props.wrapperWidth, ...gridInner }}>
           {visibleItems}
         </div>
       </div>

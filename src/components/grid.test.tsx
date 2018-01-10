@@ -165,15 +165,19 @@ describe('Calculator', () => {
   }); 
 
   it('calculates space before', () => {
-    const calculated = calculate.spaceBefore({ first: 6, itemHeight: 20, itemsInRow: 2 });
+    const calculated = calculate.spaceBefore({ first: 5, itemHeight: 20, itemsInRow: 2 });
     expect(calculated).toEqual(40);
+  });
+
+  it('calculates space before', () => {
+    const calculated = calculate.spaceBefore({ first: 6, itemHeight: 20, itemsInRow: 1 });
+    expect(calculated).toEqual(100);
   });
 
   it('calculates space after', () => {
     const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 2, totalItems: 8 });
     expect(calculated).toEqual(20);
   });
-
 
 });
 

@@ -80,13 +80,12 @@ const calculate = {
 
   visibleItemIndices: ({ totalItems, itemsInRow, itemHeight, wrapperHeight, amountScrolled }: CalculateVisibleItemsType) => {
     const first = Math.floor(amountScrolled / itemHeight) * itemsInRow + 1; 
-
     const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow + itemsInRow;  
     return { first, last }; 
   },
 
   spaceBefore: ({ first, itemHeight, itemsInRow }: CalculateSpaceBeforeType) => {
-    const result = (first - itemsInRow) * itemHeight / itemsInRow;
+    const result =  itemHeight * (first - 1) / itemsInRow;
     if (result && result > 0 && result !== Infinity) {
       return result;
     }
@@ -146,7 +145,7 @@ class Grid extends React.Component<GridPropsType> {
     const height = calculate.wrapperHeight(this.state); 
     
     const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
-
+      
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
       wrapperHeight: this.props.wrapperHeight,
@@ -157,7 +156,7 @@ class Grid extends React.Component<GridPropsType> {
 
     const { first, last } = visibleIndices;
 
-    const visibleItems = this.props.items.slice(first, last);
+    const visibleItems = this.props.items.slice(first - 1, last);
 
     const spaceBefore = calculate.spaceBefore({
       first,

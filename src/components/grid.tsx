@@ -68,7 +68,7 @@ const calculate = {
   visibleItemIndices: ({ totalItems, itemsInRow, itemHeight, wrapperHeight, amountScrolled }: CalculateVisibleItemsType) => {
     const first = Math.floor(amountScrolled / itemHeight) * itemsInRow + 1; 
 
-    const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight * itemsInRow) + 1;  
+    const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow + itemsInRow;  
     return { first, last }; 
   },
 };
@@ -90,14 +90,19 @@ class Grid extends React.Component<GridPropsType> {
   };
 
   componentDidMount() {
-    this.gridElement && 
-      this.setState({ 
+    if (this.gridElement) {
+      this.setState({
         wrapperHeight: this.gridElement.offsetHeight,
-        wrapperWidth: this.gridElement.offsetWidth, 
+        wrapperWidth: this.gridElement.offsetWidth,
         itemsCount: this.props.items.length,
         itemWidth: this.props.itemWidth,
         itemHeight: this.props.itemHeight,
       });
+
+      this.gridElement.addEventListener('scroll', () => {
+        this.setState({ foo: Math.random() });
+      });
+    }
   }
   
   shouldComponentUpdate(nextProps: Readonly<GridPropsType>, nextState: Readonly<{}>, nextContext: any) {
@@ -116,10 +121,10 @@ class Grid extends React.Component<GridPropsType> {
     // const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
-      wrapperHeight: height,
+      wrapperHeight: this.props.wrapperHeight,
       totalItems: this.state.itemsCount,
       itemHeight: this.props.itemHeight,
-      amountScrolled: 1000,
+      amountScrolled: this.gridElement ? this.gridElement.scrollTop : 0,
     }); 
 
     console.log(visibleIndices);

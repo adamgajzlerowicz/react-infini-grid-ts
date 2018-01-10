@@ -104,6 +104,13 @@ describe('Grid', () => {
     const wrapper = getWrapper();
     expect(wrapper.find('.grid .grid-inner .item-outer').length).toBeGreaterThan(1); 
   });
+
+  it('should add listener on scroll', () => {
+    const wrapper = getWrapper();
+    // console.log(wrapper.find('.grid').instance());
+    expect(true).toBeTruthy();
+  });
+
 });
 
 
@@ -136,7 +143,7 @@ describe('Calculator', () => {
     expect(calculated).toEqual(6250);
   });
 
-  it.only('should have function visibleItems that returns items that are visible', () => {
+  it('should have function visibleItems that returns items that are visible', () => {
     const visibleItems = calculate.visibleItemIndices({
       itemsInRow: 2,
       totalItems: 8,

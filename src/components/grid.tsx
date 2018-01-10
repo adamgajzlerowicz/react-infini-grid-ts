@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { isMobile } from './utils';
+import { ItemWrapper } from './itemWrapper';
+import { map } from 'rambda';
 
 const gridStyle = {
   height: 0,
@@ -92,16 +94,18 @@ class Grid extends React.Component<GridPropsType> {
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
     const height = calculate.wrapperHeight(this.state); 
-    // console.log(height);
-    const visibleItems = calculate.visibleItems(this.props.items);
+    
+    const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
+
+
     return (
       <div 
         className="grid" 
-        style={style}
-        ref={(e: HTMLDivElement) => {this.gridElement = e;}}
+        style={style} 
+        ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
       >
         <div className="grid-inner" style={{ height, width: this.props.wrapperWidth, ...gridInner }}>
-          {visibleItems}
+          {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} width={this.props.itemWidth} height={this.props.itemHeight} margin={10} child={el} />, visibleItems)}
         </div>
       </div>
     );

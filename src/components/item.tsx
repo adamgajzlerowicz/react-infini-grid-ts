@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-const Item = ({ id }: {id: number}) => {
+interface ItemPropsType {
+  id: number;
+}
+
+const Item = ({ id }: ItemPropsType) => {
   return (
     <div className="item-outer">
       <div className="item-inner">

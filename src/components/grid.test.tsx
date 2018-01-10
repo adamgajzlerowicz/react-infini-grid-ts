@@ -84,12 +84,16 @@ describe('Grid', () => {
     expect(wrapper.find('.grid .grid-inner').length).toBeTruthy();
   }); 
 
+  it('each child contains a wrapper', () => {
+    const wrapper = getWrapper();
+    expect(wrapper.find('.grid .grid-inner .item-wrapper').length).toBeGreaterThan(40);
+  }); 
+
   it('sets inner height based on amount of items', () => {
     const wrapper = mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500} wrapperWidth={500}/>); 
     const instance = wrapper.setState({ wrapperWidth: 500, wrapperHeight: 500 });
     expect(wrapper.find('.grid .grid-inner').props().style.height).toEqual(6250);
   });
-
 
   it('should contain styles for mobile', () => {
     const wrapper = getWrapper();

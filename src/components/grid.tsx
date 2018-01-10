@@ -39,10 +39,13 @@ interface CalculateWrapperHeightType {
 
 const calculate = {
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
-    const itemsInRow = wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
-    console.log('wrapperWidth: ', wrapperWidth, 'itemsInRow: ', itemsInRow);
+    const itemsInRow = calculate.itemsInRow({ wrapperWidth, itemWidth });
     const rowsTotal = itemsCount && itemsInRow ? Math.ceil(itemsCount / itemsInRow) : 0;
     return rowsTotal * itemHeight;
+  },
+  itemsInRow: ({ wrapperWidth, itemWidth }:{wrapperWidth: number, itemWidth:number}) => {
+    // use reselect
+    return wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
   },
   size: ({ offsetWidth, itemWidth }: CalculateSizePropsType) => {
     return {
@@ -90,20 +93,20 @@ class Grid extends React.Component<GridPropsType> {
 
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
-    // const height = calculate.wrapperHeight(this.state); 
+    const height = calculate.wrapperHeight(this.state); 
     
     const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
 
-    const width = this.gridElement ? this.gridElement.clientWidth : 0;
-
+    const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
+    
     return (
       <div 
         className="grid" 
         style={style} 
         ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
       >
-        <div className="grid-inner" style={{ width, ...gridInner }}>
-          {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} width={this.props.itemWidth} height={this.props.itemHeight} margin={10} child={el} />, visibleItems)}
+        <div className="grid-inner" style={{ height, ...gridInner }}>
+          {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} height={this.props.itemHeight} itemsInRow={itemsInRow} child={el} />, visibleItems)}
         </div>
       </div>
     );

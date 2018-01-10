@@ -1,15 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NothingToShow matches the snapshot 1`] = `
+exports[`ItemWrapper matches the snapshot 1`] = `
 <div
   className="item-wrapper"
   style={
     Object {
-      "flexBasis": 228,
+      "flexBasis": "NaN%",
       "flexGrow": 1,
       "height": 250,
-      "margin": 10,
-      "maxWidth": 250,
     }
   }
 >

@@ -86,7 +86,7 @@ describe('Grid', () => {
 
   it('each child contains a wrapper', () => {
     const wrapper = getWrapper();
-    expect(wrapper.find('.grid .grid-inner .item-wrapper').length).toBeGreaterThan(40);
+    expect(wrapper.find('.grid .grid-inner .item-wrapper').length).toEqual(50);
   }); 
 
   it('sets inner height based on amount of items', () => {
@@ -108,6 +108,7 @@ describe('Grid', () => {
 
 
 describe('Calculator', () => {
+
   it('contains size', () => {
     expect(calculate.size).toBeTruthy();
   });
@@ -118,6 +119,11 @@ describe('Calculator', () => {
     expect(keys).toContain('topSpace');
     expect(keys).toContain('bottomSpace');
     expect(keys).toContain('visibleItems');
+  });
+
+  it('calculates items in row', () => {
+    expect(calculate.itemsInRow({ wrapperWidth: 1000, itemWidth: 250 })).toEqual(4);
+    expect(calculate.itemsInRow({ wrapperWidth: 999, itemWidth: 250 })).toEqual(3);
   });
 
   it('calculates correct wrapper height', () => {

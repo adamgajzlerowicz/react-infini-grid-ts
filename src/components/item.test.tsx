@@ -3,7 +3,7 @@ import * as renderer from 'react-test-renderer';
 
 import Item from './item';
 
-describe('NothingToShow', () => {
+describe('Item', () => {
   
   const component = renderer.create(<Item id={13} />);
   const tree = component.toJSON();

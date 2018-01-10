@@ -1,17 +1,15 @@
 import * as React from 'react';
 
 interface ItemPropsType {
-  width: number;
-  height: number;
-  margin: number;
   child: JSX.Element | React.Component;
+  itemsInRow: number;
+  height: number;
 }
 
-const ItemWrapper = ({ width, height, margin, child }: ItemPropsType) => {
+const ItemWrapper = ({ height, itemsInRow,  child }: ItemPropsType) => {
   const style = {
     height, 
-    margin, 
-    flexBasis: width - (2 * margin) - 2,
+    flexBasis: 100 / itemsInRow + '%', 
     flexGrow: 1,
   };
   return (

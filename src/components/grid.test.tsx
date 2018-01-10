@@ -136,9 +136,16 @@ describe('Calculator', () => {
     expect(calculated).toEqual(6250);
   });
 
-  it('should have function visibleItems that returns items that are visible', () => {
-    const visibleItems = calculate.visibleItems(items);
-    expect(visibleItems.length).toBeGreaterThan(0); 
+  it.only('should have function visibleItems that returns items that are visible', () => {
+    const visibleItems = calculate.visibleItemIndices({
+      itemsInRow: 2,
+      totalItems: 8,
+      itemHeight: 20,
+      amountScrolled: 30,
+      wrapperHeight: 20,
+    });
+
+    expect(visibleItems).toEqual({ first: 3, last: 6 });
   }); 
 
 });

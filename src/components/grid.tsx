@@ -37,16 +37,26 @@ interface CalculateWrapperHeightType {
   itemsCount: number;
 }
 
+interface CalculateVisibleItemsType {
+  totalItems: number;
+  itemsInRow: number;
+  wrapperHeight: number;
+  amountScrolled: number;
+  itemHeight: number;
+}
+
 const calculate = {
+
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
     const itemsInRow = calculate.itemsInRow({ wrapperWidth, itemWidth });
     const rowsTotal = itemsCount && itemsInRow ? Math.ceil(itemsCount / itemsInRow) : 0;
     return rowsTotal * itemHeight;
   },
+
   itemsInRow: ({ wrapperWidth, itemWidth }:{wrapperWidth: number, itemWidth:number}) => {
-    // console.log('calculating');
     return wrapperWidth && itemWidth ? Math.floor(wrapperWidth / itemWidth) : 0;
   },
+
   size: ({ offsetWidth, itemWidth }: CalculateSizePropsType) => {
     return {
       topSpace: 0,
@@ -54,8 +64,12 @@ const calculate = {
       visibleItems: 0,
     };
   },
-  visibleItems: (items: JSX.Element[] | React.Component[]) => {
-    return items;
+
+  visibleItemIndices: ({ totalItems, itemsInRow, itemHeight, wrapperHeight, amountScrolled }: CalculateVisibleItemsType) => {
+    const first = Math.floor(amountScrolled / itemHeight) * itemsInRow + 1; 
+
+    const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight * itemsInRow) + 1;  
+    return { first, last }; 
   },
 };
 
@@ -96,10 +110,20 @@ class Grid extends React.Component<GridPropsType> {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
     const height = calculate.wrapperHeight(this.state); 
     
-    const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
-
     const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
-    
+    const visibleItems = this.props.items;
+
+    // const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
+    const visibleIndices = calculate.visibleItemIndices({
+      itemsInRow,
+      wrapperHeight: height,
+      totalItems: this.state.itemsCount,
+      itemHeight: this.props.itemHeight,
+      amountScrolled: 1000,
+    }); 
+
+    console.log(visibleIndices);
+
     return (
       <div 
         className="grid" 

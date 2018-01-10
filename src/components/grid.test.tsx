@@ -86,7 +86,7 @@ describe('Grid', () => {
 
   it('each child contains a wrapper', () => {
     const wrapper = getWrapper();
-    expect(wrapper.find('.grid .grid-inner .item-wrapper').length).toEqual(50);
+    expect(wrapper.find('.grid .grid-inner .item-wrapper').length).toEqual(wrapper.find('.grid .grid-inner .item-outer').length);
   }); 
 
   it('sets inner height based on amount of items', () => {
@@ -107,8 +107,10 @@ describe('Grid', () => {
 
   it('should add listener on scroll', () => {
     const wrapper = getWrapper();
-    // console.log(wrapper.find('.grid').instance());
-    expect(true).toBeTruthy();
+    const spy = jest.spyOn(calculate, 'itemsInRow');
+    const el = wrapper.find('.grid').instance();
+    el.dispatchEvent(new window.Event('scroll'));
+    expect(spy).toBeCalled();
   });
 
 });
@@ -154,6 +156,15 @@ describe('Calculator', () => {
 
     expect(visibleItems).toEqual({ first: 3, last: 6 });
   }); 
+
+  it('calculates space before', () => {
+
+  });
+
+  it('calculates space before', () => {
+    
+  });
+
 
 });
 

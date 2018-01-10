@@ -10,6 +10,10 @@
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
 
+"@types/ramda@^0.25.14":
+  version "0.25.14"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.14.tgz#6871f6ab38623027bd9be879b132ac0b7ab0453a"
+
 "@types/react-dom@^16.0.3":
   version "16.0.3"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.3.tgz#8accad7eabdab4cca3e1a56f5ccb57de2da0ff64"
@@ -4558,9 +4562,9 @@ railroad-diagrams@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
 
-rambda@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/rambda/-/rambda-1.0.8.tgz#9278675994f62f0dc7f3b386293a4bddd0e4bce9"
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
 
 randexp@^0.4.2:
   version "0.4.6"

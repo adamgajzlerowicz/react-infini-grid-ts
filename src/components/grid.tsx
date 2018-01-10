@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { isMobile } from './utils';
 import { ItemWrapper } from './itemWrapper';
-import { map } from 'rambda';
+import { map } from 'ramda';
 
 const gridStyle = {
   height: 0,
@@ -71,6 +71,15 @@ const calculate = {
     const last =  Math.floor((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow + itemsInRow;  
     return { first, last }; 
   },
+
+  spaceBefore: () => {
+    return 0;
+  },
+
+  spaceAfter: () => {
+    return 0;
+  },
+
 };
 
 class Grid extends React.Component<GridPropsType> {
@@ -116,7 +125,6 @@ class Grid extends React.Component<GridPropsType> {
     const height = calculate.wrapperHeight(this.state); 
     
     const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
-    const visibleItems = this.props.items;
 
     // const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
     const visibleIndices = calculate.visibleItemIndices({
@@ -127,7 +135,9 @@ class Grid extends React.Component<GridPropsType> {
       amountScrolled: this.gridElement ? this.gridElement.scrollTop : 0,
     }); 
 
-    console.log(visibleIndices);
+    const { first, last } = visibleIndices;
+
+    const visibleItems = this.props.items.slice(first, last);
 
     return (
       <div 

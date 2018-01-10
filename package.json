@@ -13,6 +13,7 @@
   ],
   "author": "Adam Gajzlerowicz",
   "dependencies": {
+    "@types/ramda": "^0.25.14",
     "@types/react-test-renderer": "^16.0.0",
     "autoprefixer": "7.1.2",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -28,7 +29,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
-    "rambda": "^1.0.8",
+    "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-dev-utils": "^4.0.1",
     "react-dom": "^16.2.0",

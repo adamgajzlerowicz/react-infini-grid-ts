@@ -45,6 +45,19 @@ interface CalculateVisibleItemsType {
   itemHeight: number;
 }
 
+interface CalculateSpaceBeforeType {
+  itemHeight: number;
+  itemsInRow: number;
+  first: number;
+}
+
+interface CalculateSpaceAfterType {
+  itemHeight: number;
+  totalItems: number;
+  itemsInRow: number;
+  last: number;
+}
+
 const calculate = {
 
   wrapperHeight: ({ wrapperWidth, itemWidth, itemHeight, itemsCount }: CalculateWrapperHeightType) => {
@@ -72,11 +85,19 @@ const calculate = {
     return { first, last }; 
   },
 
-  spaceBefore: () => {
+  spaceBefore: ({ first, itemHeight, itemsInRow }: CalculateSpaceBeforeType) => {
+    const result = (first - itemsInRow) * itemHeight / itemsInRow;
+    if (result && result > 0 && result !== Infinity) {
+      return result;
+    }
     return 0;
   },
 
-  spaceAfter: () => {
+  spaceAfter: ({ last, itemHeight, itemsInRow, totalItems } : CalculateSpaceAfterType) => {
+    const result = (totalItems - last) * itemHeight / itemsInRow;
+    if (result && result > 0 && result !== Infinity) {
+      return result;
+    }
     return 0;
   },
 
@@ -126,7 +147,6 @@ class Grid extends React.Component<GridPropsType> {
     
     const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
 
-    // const visibleItems: React.Component[] | JSX.Element[] = calculate.visibleItems(this.props.items);
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
       wrapperHeight: this.props.wrapperHeight,
@@ -139,6 +159,16 @@ class Grid extends React.Component<GridPropsType> {
 
     const visibleItems = this.props.items.slice(first, last);
 
+    const spaceBefore = calculate.spaceBefore({
+      first,
+      itemsInRow, 
+      itemHeight: this.props.itemHeight,
+    });
+
+    const spaceAfter = calculate.spaceAfter({
+      last, itemsInRow, itemHeight: this.props.itemHeight, totalItems: this.state.itemsCount, 
+    });
+
     return (
       <div 
         className="grid" 
@@ -146,7 +176,9 @@ class Grid extends React.Component<GridPropsType> {
         ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
       >
         <div className="grid-inner" style={{ height, ...gridInner }}>
+          <div className="space-before" style={{ height: spaceBefore,  flexBasis: '100%', flexGrow: 1 }}/>
           {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} height={this.props.itemHeight} itemsInRow={itemsInRow} child={el} />, visibleItems)}
+          <div className="space-after" style={{ height: spaceAfter,  flexBasis: '100%', flexGrow: 1 }}/>
         </div>
       </div>
     );

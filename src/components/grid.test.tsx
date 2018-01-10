@@ -60,7 +60,7 @@ describe('Grid', () => {
 
   it('calls calculate size on update', () => {
     const wrapper = getWrapper();
-    const spy = jest.spyOn(calculate, 'size');
+    const spy = jest.spyOn(calculate, 'wrapperHeight');
     wrapper.instance().shouldComponentUpdate();
     expect(spy).toHaveBeenCalled();
     spy.mockReset();
@@ -154,7 +154,7 @@ describe('Calculator', () => {
     expect(visibleItems).toEqual({ first: 3, last: 6 });
   }); 
 
-  it.only('should have function visibleItems that returns items that are visible take_2', () => {
+  it('should have function visibleItems that returns items that are visible take_2', () => {
     const visibleItems = calculate.visibleItemIndices({
       itemsInRow: 3,
       totalItems: 11,
@@ -177,13 +177,13 @@ describe('Calculator', () => {
   });
 
   it('calculates space after', () => {
-    const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 2, totalItems: 8 });
-    expect(calculated).toEqual(20);
+    const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 2, containerHeight: 100 });
+    expect(calculated).toEqual(40);
   });
 
   it('calculates space after take 2', () => {
-    const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 3, totalItems: 11 });
-    expect(calculated).toEqual(20);
+    const calculated = calculate.spaceAfter({ last: 6, itemHeight: 20, itemsInRow: 3, containerHeight: 100 });
+    expect(calculated).toEqual(60);
   });
   
 });

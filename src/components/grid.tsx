@@ -159,8 +159,6 @@ class Grid extends React.Component<GridPropsType> {
       last, itemsInRow, itemHeight: this.props.itemHeight, containerHeight: height, 
     });
 
-    console.log(spaceAfter);
-
     return (
       <div 
         className="grid" 

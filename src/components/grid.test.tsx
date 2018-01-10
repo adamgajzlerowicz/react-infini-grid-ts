@@ -113,6 +113,13 @@ describe('Grid', () => {
     expect(spy).toBeCalled();
   });
 
+  it('shows space-before item', () => {
+    expect(getWrapper().find('.grid .space-before').length).toBe(1); 
+  });
+
+  it('shows space-after item', () => {
+    expect(getWrapper().find('.grid .space-after').length).toBe(1); 
+  });
 });
 
 

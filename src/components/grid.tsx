@@ -142,8 +142,9 @@ class Grid extends React.Component<GridPropsType> {
 
   render() {
     const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
-    const height = calculate.wrapperHeight(this.state); 
     
+    const height = calculate.wrapperHeight(this.state); 
+
     const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
       
     const visibleIndices = calculate.visibleItemIndices({
@@ -175,9 +176,9 @@ class Grid extends React.Component<GridPropsType> {
         ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
       >
         <div className="grid-inner" style={{ height, ...gridInner }}>
-          <div className="space-before" style={{ height: spaceBefore,  flexBasis: '100%', flexGrow: 1 }}/>
+          <div className="space-before" style={{ height: spaceBefore,  flexBasis: '100%', flexGrow: 1, display: spaceBefore ? 'block' : 'none' }}/>
           {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} height={this.props.itemHeight} itemsInRow={itemsInRow} child={el} />, visibleItems)}
-          <div className="space-after" style={{ height: spaceAfter,  flexBasis: '100%', flexGrow: 1 }}/>
+          <div className="space-after" style={{ height: spaceAfter,  flexBasis: '100%', flexGrow: 1, display: spaceAfter ? 'block' : 'none' }}/>
         </div>
       </div>
     );

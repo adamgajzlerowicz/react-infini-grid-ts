@@ -10,7 +10,7 @@ class App extends React.Component<{}> {
     const height = window.innerHeight - 100;
     return (
       <div className="App">
-        <Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={height} wrapperWidth={500} />
+        <Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={height} wrapperWidth={750} />
       </div>
 
     );

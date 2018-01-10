@@ -49,7 +49,7 @@ interface CalculateSpaceBeforeType {
 
 interface CalculateSpaceAfterType {
   itemHeight: number;
-  totalItems: number;
+  containerHeight: number;
   itemsInRow: number;
   last: number;
 }
@@ -83,12 +83,12 @@ const calculate = {
     return 0;
   },
 
-  spaceAfter: ({ last, itemHeight, itemsInRow, totalItems } : CalculateSpaceAfterType) => {
-    const result = (totalItems - last) * itemHeight / itemsInRow;
-    if (result && result > 0 && result !== Infinity) {
-      return result;
+  spaceAfter: ({ last, itemHeight, itemsInRow, containerHeight } : CalculateSpaceAfterType) => {
+    const result = containerHeight - last * itemHeight / itemsInRow;
+    if (result < itemHeight) {
+      return 0;
     }
-    return 0;
+    return result;
   },
 
 };
@@ -156,8 +156,10 @@ class Grid extends React.Component<GridPropsType> {
     });
 
     const spaceAfter = calculate.spaceAfter({
-      last, itemsInRow, itemHeight: this.props.itemHeight, totalItems: this.state.itemsCount, 
+      last, itemsInRow, itemHeight: this.props.itemHeight, containerHeight: height, 
     });
+
+    console.log(spaceAfter);
 
     return (
       <div 

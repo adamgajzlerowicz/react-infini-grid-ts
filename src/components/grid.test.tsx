@@ -15,7 +15,7 @@ configure({ adapter: new Adapter() });
 const items: JSX.Element[] = Array.from(Array(50)).map((_, i) => <Item id={i} key={i} />);
   
 const getWrapper = () => {
-  return mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500} wrapperWidth={400}/>);
+  return mount(<Grid itemHeight={250} itemWidth={250} items={items} height={500} width={400}/>);
 };
 
 describe('Grid', () => {
@@ -41,10 +41,10 @@ describe('Grid', () => {
   });
 
   it('allows to set width', () => {
-    const noWidth = mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500}/>); 
+    const noWidth = mount(<Grid itemHeight={250} itemWidth={250} items={items} height={500}/>); 
     expect(noWidth.find('.grid').props().style.width).toEqual('auto');
 
-    const withWidth = mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500} wrapperWidth={400}/>); 
+    const withWidth = mount(<Grid itemHeight={250} itemWidth={250} items={items} height={500} width={400}/>); 
     expect(withWidth.find('.grid').props().style.width).toEqual(400);
   });
 
@@ -58,14 +58,14 @@ describe('Grid', () => {
     expect(wrapper.state().wrapperHeight).toEqual(0);
   });
 
-  // it('calls calculate size on update', () => {
-    // const wrapper = getWrapper();
-    // const spy = jest.spyOn(calculate, 'wrapperHeight');
-    // wrapper.instance().shouldComponentUpdate();
-    // expect(spy).toHaveBeenCalled();
-    // spy.mockReset();
-    // spy.mockRestore();
-  // });
+  it('calls calculate size on update', () => {
+    const wrapper = getWrapper();
+    const spy = jest.spyOn(calculate, 'visibleItemIndices');
+    wrapper.instance().shouldComponentUpdate();
+    expect(spy).toHaveBeenCalled();
+    spy.mockReset();
+    spy.mockRestore();
+  });
 
   it('sets items count on mount', () => {
     const wrapper = getWrapper();
@@ -90,7 +90,7 @@ describe('Grid', () => {
   }); 
 
   it('sets inner height based on amount of items', () => {
-    const wrapper = mount(<Grid itemHeight={250} itemWidth={250} items={items} wrapperHeight={500} wrapperWidth={500}/>); 
+    const wrapper = mount(<Grid itemHeight={250} itemWidth={250} items={items} height={500} width={500}/>); 
     const instance = wrapper.setState({ wrapperWidth: 500, wrapperHeight: 500 });
     expect(wrapper.find('.grid .grid-inner').props().style.height).toEqual(6250);
   });

@@ -19,8 +19,8 @@ const gridInner = {
 
 interface GridPropsType {
   items: React.Component[] | JSX.Element[];
-  wrapperHeight: number;
-  wrapperWidth?: number;
+  height: number;
+  width?: number;
   itemHeight: number;
   itemWidth: number;
 }
@@ -114,14 +114,14 @@ class Grid extends React.Component<GridPropsType> {
 
   getVisibleIndieces() {
     const itemsInRow = calculate.itemsInRow({
-      wrapperWidth: this.props.wrapperWidth
-        ? this.props.wrapperWidth
+      wrapperWidth: this.props.width
+        ? this.props.width
         : this.state.wrapperWidth,
       itemWidth: this.props.itemWidth,
     });
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
-      wrapperHeight: this.props.wrapperHeight,
+      wrapperHeight: this.props.height,
       totalItems: this.state.itemsCount,
       itemHeight: this.props.itemHeight,
       amountScrolled: this.gridElement ? this.gridElement.scrollTop : 0,
@@ -160,9 +160,6 @@ class Grid extends React.Component<GridPropsType> {
 
     const prev = this.state.visibleIndices;
     const next = nextState.visibleIndices;
-    if (next.first === 1) {
-      return true;
-    }
     
     if (next.first === prev.first && next.last === prev.last) {
       return false;
@@ -172,32 +169,31 @@ class Grid extends React.Component<GridPropsType> {
   }
 
   render() {
+
+    const { itemHeight } = this.props;
+
     const style = {
       ...gridStyle,
-      height: this.props.wrapperHeight,
-      width: this.props.wrapperWidth || 'auto',
+      height: this.props.height,
+      width: this.props.width || 'auto',
     };
     
     const height = calculate.wrapperHeight(this.state); 
-
-    const itemsInRow = this.state.itemsInRow;
-     
-    const visibleIndices = this.state.visibleIndices;
-
-    const { first, last } = visibleIndices;
+    
+    const { itemsInRow,  visibleIndices: { first, last } } = this.state; 
 
     const visibleItems = this.props.items.slice(first - 1, last);
 
     const spaceBefore = calculate.spaceBefore({
       first,
       itemsInRow, 
-      itemHeight: this.props.itemHeight,
+      itemHeight,
     });
 
     const spaceAfter = calculate.spaceAfter({
       last,
       itemsInRow,
-      itemHeight: this.props.itemHeight,
+      itemHeight,
       containerHeight: height,
     });
 

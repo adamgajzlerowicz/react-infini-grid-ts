@@ -149,6 +149,13 @@ class Grid extends React.Component<GridPropsType> {
           itemsInRow, 
         });
       });
+      window.addEventListener('resize', () => {
+        this.gridElement && this.setState({ wrapperWidth: this.gridElement.offsetWidth }, () => {
+          const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
+          this.setState({ visibleIndices, itemsInRow });
+        });
+      },                      true);
+
     } 
   }
   
@@ -160,6 +167,10 @@ class Grid extends React.Component<GridPropsType> {
 
     const prev = this.state.visibleIndices;
     const next = nextState.visibleIndices;
+
+    if (next.first === 1) {
+      return true;
+    }
     
     if (next.first === prev.first && next.last === prev.last) {
       return false;
@@ -170,12 +181,13 @@ class Grid extends React.Component<GridPropsType> {
 
   render() {
 
-    const { itemHeight } = this.props;
+    const { itemHeight, itemWidth } = this.props;
 
     const style = {
       ...gridStyle,
       height: this.props.height,
       width: this.props.width || 'auto',
+      minWidth: itemWidth,
     };
     
     const height = calculate.wrapperHeight(this.state); 

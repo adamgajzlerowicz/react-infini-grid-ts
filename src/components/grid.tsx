@@ -25,7 +25,6 @@ interface GridPropsType {
   itemWidth: number;
 }
 
-
 interface CalculateWrapperHeightType {
   wrapperWidth: number;
   itemWidth: number;
@@ -69,9 +68,11 @@ const calculate = {
   visibleItemIndices: ({ totalItems, itemsInRow, itemHeight, wrapperHeight, amountScrolled }: CalculateVisibleItemsType) => {
     const first = Math.floor(amountScrolled / itemHeight) * itemsInRow + 1; 
     let last =  Math.ceil((amountScrolled + wrapperHeight) / itemHeight) * itemsInRow;  
+
     if (last > totalItems) {
       last = totalItems;
     }
+
     return { first, last }; 
   },
 
@@ -118,7 +119,6 @@ class Grid extends React.Component<GridPropsType> {
         : this.state.wrapperWidth,
       itemWidth: this.props.itemWidth,
     });
-
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
       wrapperHeight: this.props.wrapperHeight,
@@ -135,19 +135,21 @@ class Grid extends React.Component<GridPropsType> {
         const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
         this.setState({ visibleIndices, itemsInRow });
       });
-
-      const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
-
+     
       this.setState({
-        visibleIndices, 
-        itemsInRow,
         wrapperHeight: this.gridElement.offsetHeight,
-        wrapperWidth: this.gridElement.offsetWidth,
         itemsCount: this.props.items.length,
         itemWidth: this.props.itemWidth,
         itemHeight: this.props.itemHeight,
+        wrapperWidth: this.gridElement.offsetWidth,
+      },            () => {
+        const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
+        this.setState({
+          visibleIndices, 
+          itemsInRow, 
+        });
       });
-    }
+    } 
   }
   
   shouldComponentUpdate(
@@ -199,12 +201,9 @@ class Grid extends React.Component<GridPropsType> {
       containerHeight: height,
     });
 
+
     return (
-      <div 
-        className="grid" 
-        style={style} 
-        ref={(e: HTMLDivElement) => {this.gridElement = e;}} 
-      >
+      <div className="grid" style={style} ref={(e: HTMLDivElement) => {this.gridElement = e;}} >
         <div className="grid-inner" style={{ height, ...gridInner }}>
           <div className="space-before" style={{ height: spaceBefore,  flexBasis: '100%', flexGrow: 1, display: spaceBefore ? 'block' : 'none' }}/>
           {map((el: React.Component | JSX.Element) => <ItemWrapper key={Math.random()} height={this.props.itemHeight} itemsInRow={itemsInRow} child={el} />, visibleItems)}

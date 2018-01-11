@@ -85,7 +85,7 @@ const calculate = {
 
   spaceAfter: ({ last, itemHeight, itemsInRow, containerHeight } : CalculateSpaceAfterType) => {
     const result = containerHeight - last * itemHeight / itemsInRow;
-    if (result < itemHeight) {
+    if (result === Infinity || isNaN(result) || result < itemHeight) {
       return 0;
     }
     return result;
@@ -93,8 +93,8 @@ const calculate = {
 
 };
 
-class Grid extends React.Component<GridPropsType> {
 
+class Grid extends React.Component<GridPropsType> {
   constructor(props: GridPropsType) {
     super(props);
   }
@@ -107,36 +107,18 @@ class Grid extends React.Component<GridPropsType> {
     wrapperWidth: 0,
     itemWidth: 0, 
     itemHeight: 0,
+    visibleIndices: { first: 0, last: 0 },
+    itemsInRow: 0,
   };
 
-  componentDidMount() {
-    if (this.gridElement) {
-      this.setState({
-        wrapperHeight: this.gridElement.offsetHeight,
-        wrapperWidth: this.gridElement.offsetWidth,
-        itemsCount: this.props.items.length,
-        itemWidth: this.props.itemWidth,
-        itemHeight: this.props.itemHeight,
-      });
+  getVisibleIndieces() {
+    const itemsInRow = calculate.itemsInRow({
+      wrapperWidth: this.props.wrapperWidth
+        ? this.props.wrapperWidth
+        : this.state.wrapperWidth,
+      itemWidth: this.props.itemWidth,
+    });
 
-      this.gridElement.addEventListener('scroll', () => {
-        this.setState({ foo: Math.random() });
-      });
-    }
-  }
-  
-  shouldComponentUpdate(nextProps: Readonly<GridPropsType>, nextState: Readonly<{}>, nextContext: any) {
-    // make it smart to not re-render if the same item indexes shown
-    return true;
-  }
-
-  render() {
-    const style = { ...gridStyle, height: this.props.wrapperHeight, width: this.props.wrapperWidth || 'auto' };
-    
-    const height = calculate.wrapperHeight(this.state); 
-
-    const itemsInRow = calculate.itemsInRow({ wrapperWidth: this.props.wrapperWidth ? this.props.wrapperWidth : 0 , itemWidth: this.props.itemWidth }); 
-      
     const visibleIndices = calculate.visibleItemIndices({
       itemsInRow,
       wrapperHeight: this.props.wrapperHeight,
@@ -144,6 +126,61 @@ class Grid extends React.Component<GridPropsType> {
       itemHeight: this.props.itemHeight,
       amountScrolled: this.gridElement ? this.gridElement.scrollTop : 0,
     }); 
+    return { visibleIndices, itemsInRow };
+  }
+
+  componentDidMount() {
+    if (this.gridElement) {
+      this.gridElement.addEventListener('scroll', () => {
+        const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
+        this.setState({ visibleIndices, itemsInRow });
+      });
+
+      const { visibleIndices, itemsInRow } = this.getVisibleIndieces(); 
+
+      this.setState({
+        visibleIndices, 
+        itemsInRow,
+        wrapperHeight: this.gridElement.offsetHeight,
+        wrapperWidth: this.gridElement.offsetWidth,
+        itemsCount: this.props.items.length,
+        itemWidth: this.props.itemWidth,
+        itemHeight: this.props.itemHeight,
+      });
+    }
+  }
+  
+  shouldComponentUpdate(
+    nextProps: Readonly<GridPropsType>,
+    nextState: Readonly<{ visibleIndices: {first: number, last: number} }>,
+    nextContext: any,
+  ) {
+
+    const prev = this.state.visibleIndices;
+    const next = nextState.visibleIndices;
+    if (next.first === 1) {
+      return true;
+    }
+    
+    if (next.first === prev.first && next.last === prev.last) {
+      return false;
+    }
+
+    return true;
+  }
+
+  render() {
+    const style = {
+      ...gridStyle,
+      height: this.props.wrapperHeight,
+      width: this.props.wrapperWidth || 'auto',
+    };
+    
+    const height = calculate.wrapperHeight(this.state); 
+
+    const itemsInRow = this.state.itemsInRow;
+     
+    const visibleIndices = this.state.visibleIndices;
 
     const { first, last } = visibleIndices;
 
@@ -156,7 +193,10 @@ class Grid extends React.Component<GridPropsType> {
     });
 
     const spaceAfter = calculate.spaceAfter({
-      last, itemsInRow, itemHeight: this.props.itemHeight, containerHeight: height, 
+      last,
+      itemsInRow,
+      itemHeight: this.props.itemHeight,
+      containerHeight: height,
     });
 
     return (

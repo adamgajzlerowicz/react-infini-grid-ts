@@ -58,14 +58,14 @@ describe('Grid', () => {
     expect(wrapper.state().wrapperHeight).toEqual(0);
   });
 
-  it('calls calculate size on update', () => {
-    const wrapper = getWrapper();
-    const spy = jest.spyOn(calculate, 'wrapperHeight');
-    wrapper.instance().shouldComponentUpdate();
-    expect(spy).toHaveBeenCalled();
-    spy.mockReset();
-    spy.mockRestore();
-  });
+  // it('calls calculate size on update', () => {
+    // const wrapper = getWrapper();
+    // const spy = jest.spyOn(calculate, 'wrapperHeight');
+    // wrapper.instance().shouldComponentUpdate();
+    // expect(spy).toHaveBeenCalled();
+    // spy.mockReset();
+    // spy.mockRestore();
+  // });
 
   it('sets items count on mount', () => {
     const wrapper = getWrapper();
